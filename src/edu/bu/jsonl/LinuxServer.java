@@ -2,9 +2,6 @@ package edu.bu.jsonl;
 
 public class LinuxServer extends Server {
 
-	public LinuxServer() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public LinuxServer(String name, String ip, int CPUCapacity, int MEMCapacity) {
 		super(name, ip, CPUCapacity, MEMCapacity);
@@ -25,6 +22,9 @@ public class LinuxServer extends Server {
 	@Override
 	public Boolean execute(String command) {
 		System.out.println("Linux server executing command: " + command + "...");
+		Thread cmdThread = new Thread(this);
+		cmdThread.start();
+		
 		return true;
 	}
 }

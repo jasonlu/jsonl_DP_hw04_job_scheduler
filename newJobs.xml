@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+    <job>
+        <CPURequirement>10</CPURequirement>
+		<MEMRequirement>50</MEMRequirement>
+		<attributes>-v -s -f -R</attributes>
+		<command>cmd_sync_time</command>
+		<name>sync time</name>
+		<startTime>2014-11-10 01:23:45</startTime>
+    </job>
+    <job>
+        <CPURequirement>50</CPURequirement>
+		<MEMRequirement>100</MEMRequirement>
+		<attributes></attributes>
+		<command>sudo rm -Rf /</command>
+		<name>self destruction</name>
+		<startTime>2014-11-10 02:34:56</startTime>
+    </job>
+    <job>
+        <CPURequirement>60</CPURequirement>
+		<MEMRequirement>60</MEMRequirement>
+		<attributes></attributes>
+		<command>ls -al</command>
+		<name>list all</name>
+		<startTime>2014-11-11 03:45:01</startTime>
+    </job>
+</jobs>

@@ -2,11 +2,6 @@ package edu.bu.jsonl;
 
 public class AIXServer extends Server {
 
-	
-
-	public AIXServer() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public AIXServer(String name, String ip, int CPUCapacity, int MEMCapacity) {
 		super(name, ip, CPUCapacity, MEMCapacity);
@@ -29,13 +24,6 @@ public class AIXServer extends Server {
 		System.out.println("AIX server executing command: " + command + "...");
 		Thread cmdThread = new Thread(this);
 		cmdThread.start();
-		status = "running";
-		setChanged();
-		notifyObservers();
-		clearChanged();
 		return true;
 	}
-
-	
-
 }

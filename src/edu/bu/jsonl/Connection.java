@@ -19,6 +19,7 @@ public class Connection implements Observer {
 	public Boolean sendCommand(Job job) {
 		System.out.println("Sending command: " + job.command + " to server: "
 				+ server );
+		server.addObserver(this);
 		server.execute(job.command);
 		server.takeCPUCapacity(job.CPURequirement);
 		server.takeMEMCapacity(job.MEMRequirement);

@@ -1,47 +1,71 @@
 package edu.bu.jsonl;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Scheduler implements Runnable, Observer { 
+public class Scheduler implements Observer { 
 	
 	private Boolean keepRunning = true;
 	ArrayList<Server> servers;
-	LinkedList<Job> jobs = new LinkedList<Job>();
+	ArrayList<Job> jobs = new ArrayList<Job>();
 	FakeTime fakeTime;
 
 	public Scheduler() {
 		servers = new ArrayList<Server>();
 		fakeTime = FakeTime.getInstance();
+		fakeTime.addObserver(this);
 	}
 	
 	public Scheduler(ArrayList<Server> servers) {
 		this.servers = servers;
 		fakeTime = FakeTime.getInstance();
+		fakeTime.addObserver(this);
 		
 	}
 	
+	private void sortJobs() {
+		//Sorting
+		Collections.sort(jobs, new Comparator<Job>() {
+			@Override
+			public int compare(Job  job1, Job  job2) {
+				return job1.startTime.compareTo(job2.startTime);
+			}
+		});
+	}
+	
+	public void addJobs(ArrayList<Job> jobs) {
+		this.jobs.addAll(jobs);
+		sortJobs();
+	}
+	
 	public void addJob(Job job) {
-		jobs.add(job);		
+		jobs.add(job);
+		sortJobs();
 	}
 	
 	Boolean idle = true;
 	public void executeJob() {
-		// jobs is a queue, implemented by linked list. 
-		Job job = jobs.peek();
+		// jobs is a ArrayList 
+		Job job = jobs.get(0);
 		if(job == null) {
 			if(!idle) {
 				System.out.println("No job in queue...");
 			}
 			idle = true;
 			return;
+		} else {
+			if(!idle) {
+				System.out.println(jobs.size() +  " jobs in queue.");
+			}
+			idle = true;
 		}
-		System.out.println(jobs.size() +  " jobs in queue.");
-		idle = false;
+		
 		long intTime = job.startTime.getTime() / 1000;
 		if(intTime <= fakeTime.getTime()) {
+			idle = false;
 			System.out.println("Scheduled time reached.");
 			System.out.println("Finding available server.");
 			for(Server s : servers) {
@@ -56,7 +80,7 @@ public class Scheduler implements Runnable, Observer {
 						// Send command via conn object.
 						conn.sendCommand(job);
 						// Remove job from queue.
-						jobs.remove();
+						jobs.remove(0);
 						
 						/*
 						 * 
@@ -69,11 +93,11 @@ public class Scheduler implements Runnable, Observer {
 						 *  
 						 */						
 						break;
-					}
-				}
-			}
-		}
-	}
+					} // end if
+				} // end if
+			} // end for
+		} // end if
+	} // end method
 	
 	private Connection connectToServer(Server s) {
 		Connection conn;
@@ -86,24 +110,9 @@ public class Scheduler implements Runnable, Observer {
 		return conn;
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		while(keepRunning) {
-			executeJob();
-			try {
-				Thread.sleep(100);
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		executeJob();
 		
 	}

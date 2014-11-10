@@ -1,6 +1,5 @@
 package edu.bu.jsonl;
 
-import java.util.LinkedList;
 import java.util.Observable;
 import java.util.UUID;
 
@@ -10,8 +9,6 @@ public abstract class Server extends Observable implements Runnable{
 	protected int MEMCapacity;
 	protected int CPUMaxCapacity;
 	protected int MEMMaxCapacity;
-	//protected Job currentJob;
-	protected String type;
 	protected String name;
 	protected String id;
 	protected String ip;
@@ -26,59 +23,10 @@ public abstract class Server extends Observable implements Runnable{
 
 
 	/**
-	 * @param cPUCapacity the cPUCapacity to set
-	 */
-	public void setCPUCapacity(int cPUCapacity) {
-		CPUCapacity = cPUCapacity;
-	}
-
-
-	/**
 	 * @return the MEMCapacity
 	 */
 	public int getMEMCapacity() {
 		return MEMCapacity;
-	}
-
-
-	/**
-	 * @param MEMCapacity the MEMCapacity to set
-	 */
-	public void setMEMCapacity(int mEMCapacoty) {
-		MEMCapacity = mEMCapacoty;
-	}
-
-
-	/**
-	 * @return the job
-	 
-	public Job getJob() {
-		return currentJob;
-	}
-	*/
-
-
-	/**
-	 * @param job the job
-	
-	public void setJobs(Job job) {
-		this.currentJob = job;
-	}
-	 */
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
 	}
 
 
@@ -89,13 +37,6 @@ public abstract class Server extends Observable implements Runnable{
 		return name;
 	}
 
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
 
 
 	/**
@@ -164,25 +105,30 @@ public abstract class Server extends Observable implements Runnable{
 	}
 	
 	abstract public String getStatus();
+	
+	protected void setStatus(String status) {
+		this.status = status;
+		setChanged();
+		notifyObservers();
+		clearChanged();
+	}
+	
 	abstract public Boolean connect();
 	abstract public Boolean execute(String command);
 	
 	@Override
 	public void run() {
+		setStatus("running");
 		while(CPUCapacity < CPUMaxCapacity && MEMCapacity < MEMMaxCapacity) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			putCPUCapacity(1);
 			putMEMCapacity(1);
 		}
-		setChanged();
-		notifyObservers();
-		clearChanged();
-		status = "completed";
+		setStatus("completed");
 	}
 	
 

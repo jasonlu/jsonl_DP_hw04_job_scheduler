@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servers>
+    <server>
+        <type>Windows</type>
+        <name>windows001</name>
+        <ip>10.10.0.100</ip>
+        <CPUCapacity>100</CPUCapacity>
+        <MEMCapacity>200</MEMCapacity>
+    </server>
+    <server>
+        <type>Linux</type>
+        <name>linux001</name>
+        <ip>10.10.0.101</ip>
+        <CPUCapacity>120</CPUCapacity>
+        <MEMCapacity>220</MEMCapacity>
+    </server>
+    <server>
+        <type>Solaris</type>
+        <name>solaris001</name>
+        <ip>10.10.0.102</ip>
+        <CPUCapacity>140</CPUCapacity>
+        <MEMCapacity>240</MEMCapacity>
+    </server>
+    <server>
+        <type>AIX</type>
+        <name>aix001</name>
+        <ip>10.10.0.103</ip>
+        <CPUCapacity>160</CPUCapacity>
+        <MEMCapacity>260</MEMCapacity>
+    </server>
+    <server>
+        <type>Windows</type>
+        <name>windows002</name>
+        <ip>10.10.0.104</ip>
+        <CPUCapacity>180</CPUCapacity>
+        <MEMCapacity>280</MEMCapacity>
+    </server>
+</servers>

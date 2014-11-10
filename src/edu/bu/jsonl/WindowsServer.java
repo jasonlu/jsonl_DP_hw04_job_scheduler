@@ -2,9 +2,6 @@ package edu.bu.jsonl;
 
 public class WindowsServer extends Server {
 
-	public WindowsServer() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public WindowsServer(String name, String ip, int CPUCapacoty, int MEMCapacoty) {
 		super(name, ip, CPUCapacoty, MEMCapacoty);
@@ -25,6 +22,9 @@ public class WindowsServer extends Server {
 	@Override
 	public Boolean execute(String command) {
 		System.out.println("Windows server executing command: " + command + "...");
+		Thread cmdThread = new Thread(this);
+		cmdThread.start();
+		
 		return true;
 	}
 	
